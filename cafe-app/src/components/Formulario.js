@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment, useRef} from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 
@@ -19,16 +19,6 @@ const Label = styled.label`
     float:left;
     margin: 6px 10px;
 `;
-
-const Select = styled.select`
-    width: 100%;
-    display:block;
-    padding: 0.5rem;
-    -webkit-appearance: none;
-    border-radius: 10px;
-    border: none;
-    font-size: 1.2rem;
-`
 
 const Boton = styled.input`
     margin-top: 5px;
