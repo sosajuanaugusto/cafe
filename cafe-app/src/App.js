@@ -38,11 +38,8 @@ const Heading = styled.h1`
 `;
 
 function App() {
-
-
-  const [topping, guardarTopping] = useState('');
+  
   const [total, setTotal] = useState();
-  const [billete, setBillete] = useState();
   const [cargando, guardarCargando] = useState(false);
 
 
@@ -64,34 +61,10 @@ const handleSubmit = async (list) => {
           }, 2000);
 
           }
-
-
-          const handlePago = async (total, billete) => {
-            debugger
-            // evitamos la ejecución la primera vez
-            //if(topping === '') return;
-            // consultar la api para obtener la cotizacion
-            const url = `http://localhost:5000/pago`;
-            debugger
-            const response = await axios.post(url, {"total" : total,
-             "billete" : billete})
-            // mostrar el spinner
-            guardarCargando(true);
-  
-            setTimeout(() => {
-  
-              // cambiar el estado de cargando
-              guardarCargando(false);
-  
-              // guardar cotizacion
-              setTotal(response.data);
-              setBillete(response.data);
-            }, 2000);
-  
-            }          
+       
 
   // Mostrar spinner o resultado
-  const componente = (cargando) ? <Spinner /> :  <Cotizacion total={total} billete={billete} handlePago={handlePago} />
+  const componente = (cargando) ? <Spinner /> :  <Cotizacion total={total} />
 
   return (
     <Contenedor>

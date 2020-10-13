@@ -1,5 +1,6 @@
-import React,{Fragment} from 'react'
+import React, {Fragment, useState} from 'react'
 import styled from '@emotion/styled'
+import Error from './Error'
 
 const ResultadoDiv = styled.div`
     color: #FFF;
@@ -25,6 +26,7 @@ const Input = styled.input`
     padding: 12px 3px 12px 15px;
     margin-left: 10px;
     font-size: 16px;
+    color: #fff;
     transition: all 0.2s ease;
     z-index: 500;
 `
@@ -46,31 +48,70 @@ const BotonPagar = styled.input`
 `
 
 
-const Cotizacion = ({total, billete, handlePago}) => {
+const Cotizacion = ({total}) => {
+    
+    const [ pago, setPago] = useState(0)
+    const [ error, setError] = useState(false);
+    const [ mensaje, setMensaje] = useState("");
+    const [validado, setValidado] = useState(false);
 
-    const calcPago = () =>{
+    const handleChange = e => {
+        setPago(
+            e.target.name = parseInt(e.target.value)            
+        )
+        setError(false);
+        
+    }
 
-            debugger
-            handlePago({total}, {billete})
+    const agregarPago = e => {
+        e.preventDefault()
+        
+        if(isNaN(pago)){ 
+            setMensaje("El campo es obligatorio");
+            setError(true);
+            return;
         }
+        if(pago<total){ 
+            setMensaje("El pago no puede ser menor al total");
+            setError(true);
+            return;
+        }
+        setError(false);
+        setValidado(true);
+       
+    }
 
 
-
+        
 
     return ( 
         <Fragment>
+        <form
+      //   onSubmit={agregarPago}
+        >
         {total ? 
         <ResultadoDiv>
           <Title>Total a pagar $<span>{total}</span> </Title>
-          <Title>Pagar con $<Input type="text" value="100" /> </Title>
+
+          <Title>Pagar con $<Input type="number"
+                                   name="pago"                                   
+                                   onChange={handleChange}
+                                   /> 
+          </Title>
+          {error ? <Error mensaje={mensaje} /> : null}         
+
           <BotonPagar
                 type="submit"
-                value={billete} 
-                onClick={calcPago}
+                value="Pagar"
+                onClick={agregarPago}                
             />
 
-        </ResultadoDiv> : null}
+        {validado ? <Title>Su vuelto es ${pago-total}. Gracias por su compra</Title> : null}
 
+        </ResultadoDiv> : null}
+        </form>
+        
+        
 
         </Fragment>
      );
