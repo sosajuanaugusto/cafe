@@ -57,7 +57,7 @@ const Formulario = ({handleSubmit}) => {
     const calcTotal = () =>{
     let arrayCbs = []
     let checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
-    for (let i = 0; i < checkboxes.length; i++) {
+    for (let i = 0; i < checkboxes.length; i++) {        
         arrayCbs.push(parseInt(checkboxes[i].value))
     }
         

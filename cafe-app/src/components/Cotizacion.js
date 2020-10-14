@@ -1,6 +1,7 @@
 import React, {Fragment, useState} from 'react'
 import styled from '@emotion/styled'
 import Error from './Error'
+import Spinner from './Spinner';
 
 const ResultadoDiv = styled.div`
     color: #FFF;
@@ -53,13 +54,15 @@ const Cotizacion = ({total}) => {
     const [ pago, setPago] = useState(0)
     const [ error, setError] = useState(false);
     const [ mensaje, setMensaje] = useState("");
-    const [validado, setValidado] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [payDone, setPayDone] = useState(false);
 
     const handleChange = e => {
         setPago(
             e.target.name = parseInt(e.target.value)            
         )
         setError(false);
+        setPayDone(false);
         
     }
 
@@ -77,18 +80,19 @@ const Cotizacion = ({total}) => {
             return;
         }
         setError(false);
-        setValidado(true);
-       
+        setLoading(true);
+        setPayDone(false);
+        setTimeout(() => {          
+            setLoading(false);
+            setPayDone(true);
+                     
+        }, 2000);       
     }
 
-
-        
+    const showSpinner = (loading) ? <Spinner /> :  null
 
     return ( 
         <Fragment>
-        <form
-      //   onSubmit={agregarPago}
-        >
         {total ? 
         <ResultadoDiv>
           <Title>Total a pagar $<span>{total}</span> </Title>
@@ -105,14 +109,11 @@ const Cotizacion = ({total}) => {
                 value="Pagar"
                 onClick={agregarPago}                
             />
+            {showSpinner} 
 
-        {validado ? <Title>Su vuelto es ${pago-total}. Gracias por su compra</Title> : null}
+        {payDone ? <Title>Su vuelto es ${pago-total}. Gracias por su compra</Title> : null}
 
         </ResultadoDiv> : null}
-        </form>
-        
-        
-
         </Fragment>
      );
 }
